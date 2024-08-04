@@ -23,6 +23,7 @@ function App() {
           break;
     }
   }
+  
   useEffect(() => {
     locationHandler(location)
   }, [location])

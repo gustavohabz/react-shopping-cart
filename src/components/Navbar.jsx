@@ -6,10 +6,11 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { setAddedToCart } from '../slices/cartItemSlice';
+import { setCart } from '../slices/cartCounterSlice';
 
 export const Navbar = () => {
     const cart = useSelector(state => state.cartItem.value)
-    const [cartCounter, setCartCounter] = useState(0)
+    const cartCounter = useSelector(state => state.cartCounter.value)
 
     const dispatch = useDispatch();
 
@@ -19,11 +20,16 @@ export const Navbar = () => {
             if(cartItems.length > 0){
                 dispatch(setAddedToCart(cartItems))
             }
-            console.log(cart)
+            const cartCount = (JSON.parse(localStorage.getItem('cart-count')) ? JSON.parse(localStorage.getItem('cart-count')) : [])
+            dispatch(setCart(cartCount))
         }catch(e){
             console.log('Error')
         }
     }, [])
+
+    useEffect(() => {
+        dispatch(setCart(cartCounter))
+    }, [cartCounter])
 
   return (
     <Box>

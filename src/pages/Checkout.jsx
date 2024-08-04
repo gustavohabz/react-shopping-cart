@@ -1,13 +1,18 @@
-import { Avatar, Box, Card, CardContent, Grid, IconButton, List, ListItem, ListItemText, Typography } from '@mui/material'
+import { Avatar, Box, Button, Card, CardContent, Grid, IconButton, List, ListItem, ListItemText, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAddedToCart } from '../slices/cartItemSlice';
+import { setCart } from '../slices/cartCounterSlice';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
 export const Checkout = () => {
   const [cartItems, setCartItems] = useState([])
-  
+  const [counter, setCounter] = useState(-1)
+  const [boughtProduct, setBoughtProduct] = useState(false)
+  const cartCounter = useSelector(state => state.cartCounter.value)
+
   const dispatch = useDispatch()
 
   const fetchCartFromStorage = () => {
@@ -16,10 +21,6 @@ export const Checkout = () => {
     } catch(e) {
       console.log('Error')
     }
-  }
-
-  const updateLocalStorage = (arr) => {
-    localStorage.setItem('cart-item', JSON.stringify(arr))
   }
 
   const addToCart = (id) => {
@@ -31,9 +32,9 @@ export const Checkout = () => {
         arr.push(item)
       }
     })
-    updateLocalStorage(arr)
     setCartItems(arr)
     dispatch(setAddedToCart(arr))
+    setCounter(cartCounter+1)
   }
 
   const removeFromCart = (id) => {
@@ -45,14 +46,37 @@ export const Checkout = () => {
         arr.push(item)
       }
     })
-    updateLocalStorage(arr)
-    setCartItems(arr)
-    dispatch(setAddedToCart(arr))
+
+    setCounter(cartCounter-1)
+    if(cartCounter > 0){
+      setCartItems(arr)
+      dispatch(setAddedToCart(arr))
+    }else{
+      setCartItems([])
+      dispatch(setAddedToCart([]))
+    }
   }
   
+  const buyProducts = () => {
+    setCounter(0)
+    setBoughtProduct(true)
+    dispatch(setAddedToCart([]))
+    dispatch(setCart(0))
+  }
+
   useEffect(() => {
     fetchCartFromStorage()
   }, [])
+
+  useEffect(() => {
+    if(counter > -1){
+      dispatch(setCart(counter))
+    }
+  }, [counter])
+
+  useEffect(() => {
+    if(cartCounter == 0)setCartItems([])
+  }, [cartCounter])
 
   return (
     <Box align="center">
@@ -67,34 +91,52 @@ export const Checkout = () => {
           <Grid item lg={8} md={8} xs={12} sm={12}>
             <Card>
               <CardContent>
-                <List>
-                  {cartItems.map((item) => (
-                    <ListItem 
-                      key={item.id}
-                      secondaryAction={
-                        <>
-                          <IconButton onClick={() => removeFromCart(item.id)}>
-                            <RemoveIcon />
-                          </IconButton>
-                          <IconButton onClick={() => addToCart(item.id)}>
-                            <AddIcon />
-                          </IconButton>
-                        </>
-                      }
-                    >
-                      <ListItemText>
-                        <Typography variant="h6">
-                          <Avatar 
-                            alt={item.title}
-                            sx={{width: 90, height: 90}}
-                            src={item.image}
-                          />
-                          {item.title} ({item.ammount})
-                        </Typography>
-                      </ListItemText>
+                {boughtProduct ? (
+                  <p>Purchase complete</p>
+                ) : (
+                  <List>
+                    {cartItems.length > 0 ? (
+                      cartItems.map((item) => (
+                        (item.ammount > 0 && (
+                          <ListItem 
+                            key={item.id}
+                            secondaryAction={
+                              <>
+                                <IconButton onClick={() => removeFromCart(item.id)}>
+                                  <RemoveIcon />
+                                </IconButton>
+                                <IconButton onClick={() => addToCart(item.id)}>
+                                  <AddIcon />
+                                </IconButton>
+                              </>
+                            }
+                          >
+                            <ListItemText>
+                              <Typography variant="h6">
+                                <Avatar 
+                                  alt={item.title}
+                                  sx={{width: 90, height: 90}}
+                                  src={item.image}
+                                />
+                                {item.title} ({item.ammount})
+                              </Typography>
+                            </ListItemText>
+                          </ListItem>
+                        ))
+                      ))
+                    ) : (
+                      <p>Your cart is empty</p>
+                    )}
+                    {cartItems.length > 0 && (
+                    <ListItem >
+                      <Button onClick={buyProducts} size="large" variant="contained" color="success" sx={{marginLeft: 'auto'}}>
+                        BUY &nbsp;
+                        <ShoppingBasketIcon />
+                      </Button>
                     </ListItem>
-                  ))}
-                </List>
+                    )}
+                  </List>
+                )}
               </CardContent>
             </Card>
           </Grid>

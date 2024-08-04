@@ -1,6 +1,5 @@
-import { Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Container, Grid, IconButton, TextField } from '@mui/material'
+import { Box, Button, Card, CardContent, Container, Grid, Skeleton} from '@mui/material'
 import './../assets/shop.css'
-import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import ProductService from '../services/ProductService'
 import { useDispatch } from 'react-redux'
@@ -8,21 +7,29 @@ import { setCart } from '../slices/cartCounterSlice';
 import { setAddedToCart } from '../slices/cartItemSlice';
 import { v4 as uuidv4 } from 'uuid'
 import { ProductCard } from '../components/ProductCard';
+import { LoadingShopItems } from '../components/LoadingShopItems'
 
 export const Shop = () => {
   const [shopItems, setShopItems] = useState([])
   const [cartItems, setCartItems] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
 
   const dispatch = useDispatch()
 
   const fetchData = async () => {
+    setLoading(true)
     try {
       const items = await ProductService.fetchStoreItems()
       handlecartItems(items)
       setShopItems(items)
+      setLoading(false)
+      setError(false)
     } catch(e) {
       console.log('Error')
       console.log(e)
+      setLoading(false)
+      setError(true)
     }
   }
 
@@ -63,15 +70,6 @@ export const Shop = () => {
       tempcartItems.push(obj)
     })
     setCartItems(tempcartItems)
-  }
-
-  const fetchCountFromLocalStorage = () => {
-    return (localStorage.getItem('cart-count') ? localStorage.getItem('cart-count') : 0)
-  }
-
-  const setCountFromLocalStorage = () => {
-    let counterStorage = fetchCountFromLocalStorage()
-    dispatch(setCart(counterStorage))
   }
 
   const updateCount = () => {
@@ -133,7 +131,6 @@ export const Shop = () => {
 
   useEffect(() => {
     fetchData()
-    setCountFromLocalStorage()
   }, [])
 
   useEffect(() => {
@@ -156,16 +153,33 @@ export const Shop = () => {
           container 
           spacing={3} 
         >
-          {shopItems.map((item, index) => (
-            <ProductCard 
-              key={item.id}
-              product={item}
-              removeCartItems={removeCartItems}
-              addCartItems={addCartItems}
-              updateCartItems={updateCartItems}
-              inputValue={cartItems[index]}
-            />
-          ))}
+          {error ? (
+            <Grid item lg={12} md={12} xs={12} sm={12}>
+                <Card variant="outlined">
+                    <CardContent>
+                        <h1 style={{color: 'black'}} >There was an error while loading.</h1>
+                        <Button variant="contained" onClick={fetchData}>
+                          retry
+                        </Button>
+                    </CardContent>  
+                </Card>
+            </Grid>
+          ) : loading ? (
+            <LoadingShopItems />
+          ) : (
+            <>
+              {shopItems.map((item, index) => (
+                <ProductCard 
+                  key={item.id}
+                  product={item}
+                  removeCartItems={removeCartItems}
+                  addCartItems={addCartItems}
+                  updateCartItems={updateCartItems}
+                  inputValue={cartItems[index]}
+                />
+              ))}
+            </>
+          )}
         </Grid>
       </Container>
     </>
