@@ -89,7 +89,9 @@ export const Checkout = () => {
           spacing={3} 
         >
           <Grid item lg={8} md={8} xs={12} sm={12}>
-            <Card>
+            <Card 
+              sx={{borderRadius: '50px'}}
+            >
               <CardContent>
                 {boughtProduct ? (
                   <p>Purchase complete</p>

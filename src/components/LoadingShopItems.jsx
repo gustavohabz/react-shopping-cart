@@ -2,7 +2,7 @@ import { Card, CardContent, Grid, Skeleton } from '@mui/material'
 import React from 'react'
 
 export const LoadingShopItems = () => {
-    const SKELETON_NUMBER = 6
+    const SKELETON_NUMBER = 12
     const SKELETON_ARRAY = [...Array(SKELETON_NUMBER).keys()]
   return (
     <>
@@ -12,9 +12,27 @@ export const LoadingShopItems = () => {
                     <CardContent>
                         <Skeleton 
                             animation="wave"
+                            variant="text"
+                            height={60}
+                            width={'100%'}
+                        />
+                        <Skeleton 
+                            animation="wave"
                             variant="rectangular"
-                            height={400}
-                            width={300}
+                            height={150}
+                            width={'100%'}
+                        />
+                        <Skeleton 
+                            animation="wave"
+                            variant="text"
+                            height={40}
+                            width={'100%'}
+                        />
+                        <Skeleton 
+                            animation="wave"
+                            variant="text"
+                            height={40}
+                            width={'100%'}
                         />
                     </CardContent>  
                 </Card>

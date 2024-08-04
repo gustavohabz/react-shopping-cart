@@ -144,14 +144,14 @@ export const Shop = () => {
     <>
       <Box align="center">
           <div className="shop-title-spacing">
-              <h1>Our Products</h1>
+              <h1 className='shop-title'>Our Products</h1>
           </div>
       </Box>
       <Container maxWidth="xl">
         <Grid
           justifyContent="center" 
           container 
-          spacing={3} 
+          spacing={2}
         >
           {error ? (
             <Grid item lg={12} md={12} xs={12} sm={12}>
@@ -167,7 +167,7 @@ export const Shop = () => {
           ) : loading ? (
             <LoadingShopItems />
           ) : (
-            <>
+            <div className="flex-product">
               {shopItems.map((item, index) => (
                 <ProductCard 
                   key={item.id}
@@ -178,7 +178,7 @@ export const Shop = () => {
                   inputValue={cartItems[index]}
                 />
               ))}
-            </>
+            </div>
           )}
         </Grid>
       </Container>

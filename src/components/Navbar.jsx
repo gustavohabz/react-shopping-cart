@@ -35,24 +35,24 @@ export const Navbar = () => {
     <Box>
         <AppBar sx={{ bgcolor: '#ffc107', color: '#000000' }}>
             <Toolbar>
-            <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
-                <Link to="/home">
-                    Faker's Shopping
-                </Link>
-            </Typography>
-            
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                <Link to="/shop">
-                    <Button variant="contained">
-                        <StorefrontIcon /> &nbsp; Products
-                    </Button>
-                </Link>
-            </Typography>
-            <IconButton color="inherit">
-                <Badge badgeContent={cartCounter} color="primary">
-                    <ShoppingCartIcon />
-                </Badge>
-            </IconButton>
+                <Typography variant="h4" component="div">
+                    <Link to="/home">
+                        Faker's Shopping
+                    </Link>
+                </Typography>
+                
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1, paddingLeft: '5%' }}>
+                    <Link to="/shop">
+                        <Button size="large" variant="contained">
+                            <StorefrontIcon sx={{marginRight: '10%'}} /> Products
+                        </Button>
+                    </Link>
+                </Typography>
+                <IconButton color="inherit">
+                    <Badge badgeContent={cartCounter} color="primary">
+                        <ShoppingCartIcon />
+                    </Badge>
+                </IconButton>
             </Toolbar>
         </AppBar>
     </Box>

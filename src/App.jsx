@@ -6,6 +6,7 @@ import './App.css'
 import { Navbar } from './components/Navbar'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react';
+import { Footer } from './components/Footer';
 
 function App() {
   const location = useLocation();
@@ -14,12 +15,12 @@ function App() {
     switch(location.pathname){
       case '/':
       case '/home':
-          document.body.classList.remove('shop-banner-bags')
           document.body.classList.add('shop-banner-home')
+          document.body.classList.remove('background-color')
           break;
       case '/shop':
           document.body.classList.remove('shop-banner-home')
-          document.body.classList.add('shop-banner-bags')
+          document.body.classList.add('background-color')
           break;
     }
   }
@@ -33,6 +34,7 @@ function App() {
       <Navbar />
       {location.pathname == '/' ? <Navigate to="/home"/> : ''}
       <Outlet />
+      <Footer />
     </>
   )
 }
