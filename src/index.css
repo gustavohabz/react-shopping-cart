@@ -1,4 +1,4 @@
-:root, .shop-banner-home{
+html .shop-banner-home{
     margin: 0;
     height: 100%;
     background-image: url(./assets/shop-banner-expo.png);
