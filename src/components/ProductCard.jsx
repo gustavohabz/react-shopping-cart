@@ -27,7 +27,7 @@ export const ProductCard = ({product, inputValue, removeCartItems, addCartItems,
             image={product.image}
         />
         <CardContent
-            style={{paddingBottom: '30%'}}
+            style={{paddingBottom: '40%'}}
         >
             <Typography variant="h6" gutterBottom>
                 {product.title}
@@ -36,10 +36,9 @@ export const ProductCard = ({product, inputValue, removeCartItems, addCartItems,
                 {formatPrice(product.price)}
             </Typography>
         </CardContent>
-        <CardActions style={{position: 'absolute', bottom: '0', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap'}}>
+        <CardActions style={{position: 'absolute', bottom: '0', display: 'flex', justifyContent: 'space-evenly', flexWrap: 'wrap'}}>
             <IconButton
                 onClick={() => removeCartItems(product.id)}
-                sx={{width: '10%'}}
             >
                 <RemoveShoppingCartIcon />
             </IconButton>
@@ -58,18 +57,20 @@ export const ProductCard = ({product, inputValue, removeCartItems, addCartItems,
             >
                 <AddShoppingCartIcon />
             </IconButton>
-            {inputValue.ammount > 0 ? (
-                <Link to="/checkout" style={{width: '100%'}}>
-                    <Button 
-                        variant="contained"
-                        fullWidth
-                    >
-                        Checkout
-                    </Button>
-                </Link>
-            ) : (
-                <div style={{paddingTop: '40%'}}></div>
-            )}
+            <div style={{width: '90%'}}>
+                {inputValue.ammount > 0 ? (
+                    <Link to="/checkout">
+                        <Button 
+                            variant="contained"
+                            fullWidth
+                        >
+                            Checkout
+                        </Button>
+                    </Link>
+                ) : (
+                    <div style={{paddingTop: '20%'}}></div>
+                )}
+            </div>
         </CardActions>
     </Card>
   )
