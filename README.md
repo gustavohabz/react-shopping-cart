@@ -8,7 +8,7 @@ Projeto criado para o [currículo react](https://www.theodinproject.com/paths/fu
 
 Página do projeto: https://www.theodinproject.com/lessons/node-path-react-new-shopping-cart
 
-Um simples projeto feito em react com o intuito de praticar conceitos como: hooks, routing, state management, global state management e uso da biblioteca "mui".
+Um simples projeto feito em react que simula uma loja virtual onde o usuário pode adicionar e remover itens do carrinho e ser redirecionado para uma página de compra. Feito com o intuito de praticar conceitos como: hooks, routing, state management, API, global state management e uso da biblioteca "mui".
 
 # Tecnologias utilizadas:
 - React (Javascript) + Vite
@@ -27,7 +27,7 @@ Project developed for [the react curriculum](https://www.theodinproject.com/path
 
 Project's page: https://www.theodinproject.com/lessons/node-path-react-new-shopping-cart
 
-A simple project built in react with the purpose of practicing concepts such as: hooks, routing, state management, global state management and use of "mui" library.
+A simple project built in react which simualtes a digital store where the user can add/remove items from the cart and redirect to the checkout page. Developed with the purpose of practicing concepts such as: hooks, routing, state management, API, global state management and use of "mui" library.
 
 # Technologies used:
 - React (Javascript) + Vite
